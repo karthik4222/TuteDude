@@ -2,7 +2,7 @@
 // server.js - Proctoring backend (ESM)
 import express from 'express';
 import cors from 'cors';
-
+import 'dotenv/config';
 import { connectDB } from './db.js';
 
 let db;
