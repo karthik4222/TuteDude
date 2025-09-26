@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Proctoring (Browser-only)</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Proctoring (Browser-only)</h1>
+      <p>Local face/attention and object detection with event logging. No video leaves your device.</p>
+    </header>
+
+    <main>
+      <section class="panel">
+        <div class="toolbar">
+          <label>
+            Candidate name
+            <input id="candidateInput" type="text" placeholder="e.g., Jane Doe" />
+          </label>
+          <button id="startBtn">Start Session</button>
+          <button id="stopBtn" disabled>Stop Session</button>
+          <button id="clearLogBtn">Clear Log</button>
+          <button id="downloadCsvBtn">Download CSV</button>
+          <button id="downloadReportBtn">Download Report (JSON)</button>
+          <label>
+            Flag note
+            <input id="flagNote" type="text" placeholder="Reason/observation" />
+          </label>
+          <button id="flagBtn" title="Add a manual FLAG notice">Add Flag</button>
+          <label style="display:flex;align-items:center;gap:4px;font-size:13px">
+            <input type="checkbox" id="debugObjectsToggle" /> Debug Objects
+          </label>
+        </div>
+
+        <div class="video-wrapper">
+          <video id="webcam" autoplay playsinline muted></video>
+          <canvas id="overlay"></canvas>
+        </div>
+
+        <div class="status">
+          <div><strong>Session:</strong> <span id="sessionStatus">Idle</span></div>
+          <div><strong>Candidate:</strong> <span id="candidateName">-</span></div>
+          <div><strong>Elapsed:</strong> <span id="elapsed">00:00</span></div>
+          <div><strong>Faces:</strong> <span id="faceCount">0</span></div>
+          <div><strong>Attention:</strong> <span id="attentionStatus">-</span></div>
+          <div><strong>No-Face Timer:</strong> <span id="noFaceTimer">0.0s</span></div>
+          <div><strong>Inattentive Timer:</strong> <span id="inattentiveTimer">0.0s</span></div>
+          <div><strong>Inattentive Count:</strong> <span id="inattentiveCount">0</span></div>
+          <div><strong>Objects:</strong> <span id="lastObjects">-</span></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Event Log</h2>
+        <ul id="eventLog" class="log-list"></ul>
+      </section>
+
+      <section class="panel">
+        <h2>Get Session Report</h2>
+        <input id="reportSessionId" type="text" placeholder="Session ID" />
+        <button id="getReportBtn">Get Report</button>
+        <pre id="reportResult"></pre>
+      </section>
+    </main>
+
+    <footer>
+      <small>Powered by MediaPipe Tasks in the browser. Host on localhost/HTTPS for camera access.</small>
+    </footer>
+
+  <!-- ml5.js (Tiny YOLO support). Use jsDelivr; cdnjs may return HTML if the asset is unavailable. -->
+    <script src="https://cdn.jsdelivr.net/npm/ml5@0.12.2/dist/ml5.min.js"></script>
+    <!-- Note: MediaPipe ObjectDetector .task is fetched inside main.js from Google Storage
+      efficientdet_lite0.task: https://storage.googleapis.com/mediapipe-models/object_detector/efficientdet_lite0/float16/1/efficientdet_lite0.task -->
+    <script type="module" src="./main.js"></script>
+  </body>
+  </html>
